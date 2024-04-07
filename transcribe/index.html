@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio Transcription Service</title>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Audio Transcription</h1>
+      <form
+        id="transcriptionForm"
+        action="/transcribe"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input type="file" name="audio_file" accept="audio/*" required />
+        <button type="submit">Submit</button>
+      </form>
+      <p>
+        File formats should be mp3, mp4, mpeg, mpga, m4a, wav, and webm. File
+        size is limited to 25MB.
+      </p>
+    </div>
+    <script>
+      document
+        .getElementById("transcriptionForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          fetch("/transcribe", {
+            method: "POST",
+            body: new FormData(this),
+          })
+            .then((response) => response.text())
+            .then((transcription) => {
+              localStorage.setItem("transcription", transcription);
+              window.location.href = "/result";
+            })
+            .catch((error) => console.error("Error:", error));
+        });
+    </script>
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio Transcription</title>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Audio Transcription</h1>
+      <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="audio_file" accept="audio/*" required />
+        <button type="submit">Submit</button>
+      </form>
+      <p>
+        File formats should be mp3, mp4, mpeg, mpga, m4a, wav, and webm. File
+        size is limited to 25MB.
+      </p>
+    </div>
+  </body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio Transcription</title>
+  </head>
+  <body>
+    <h1>Audio Transcription</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+      <input type="file" name="audio_file" accept="audio/*" required />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html> -->
