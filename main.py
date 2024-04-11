@@ -1,11 +1,16 @@
-# from flask import Flask, render_template, request
+
 from openai import OpenAI
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import io
+import models
+from database import engine, SessionLocal
+import auth
+
 
 # app = Flask(__name__)
 app = FastAPI()
+app.include_router(auth.router)
+
 
 api_key = "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"
 client = OpenAI(api_key=api_key)
@@ -17,6 +22,15 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["POST", "GET"],
     allow_headers=["*"])
+
+models.Base.metadata.create_all(bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 @app.post("/summarize")
 async def summarize(content: str):
@@ -45,44 +59,4 @@ async def summarize(content: str):
 
     
     
-    # audio_file = request.files['audio_file']
-    # if audio_file:
-    #     transcription = client.audio.transcriptions.create(
-    #         model="whisper-1", 
-    #         file=audio_file
-    #     )
-    #     return transcription.text
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
-# @app.route('/', methods=['GET', 'POST'])
-# def index():
-#     if request.method == 'POST':
-#         audio_file = request.files['audio_file']
-#         if audio_file:
-#             transcription = client.audio.transcriptions.create(
-#                 model="whisper-1", 
-#                 file=audio_file
-#             )
-#             return render_template('result.html', transcription=transcription.text)
-#     return render_template('index.html')
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
-
-
-
-
-# from openai import OpenAI
-# api_key="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"
-
-# client = OpenAI(api_key=api_key)
-# audio_file= open("EarningsCallll.mp3", "rb")
-# transcription = client.audio.transcriptions.create(
-#   model="whisper-1", 
-#   file=audio_file
-# )
-# print(transcription.text)
 
