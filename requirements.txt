@@ -5,3 +5,7 @@ docx
 python-docx
 requests
 pydub
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+sqlalchemy
