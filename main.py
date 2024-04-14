@@ -1,13 +1,15 @@
 
 from openai import OpenAI
-from fastapi import FastAPI,HTTPException
+from fastapi import FastAPI,HTTPException, Depends, Security, Request
 from fastapi.middleware.cors import CORSMiddleware
 import models
 from database import engine, SessionLocal
+from fastapi.security import OAuth2PasswordBearer
+from typing_extensions import Annotated
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 import auth
+security = HTTPBearer()
 
-
-# app = Flask(__name__)
 app = FastAPI()
 app.include_router(auth.router)
 
@@ -20,7 +22,7 @@ app.add_middleware(
     CORSMiddleware, 
     allow_origins=origin,
     allow_credentials=True,
-    allow_methods=["POST", "GET"],
+    allow_methods=["POST", "GET", "OPTIONS"],
     allow_headers=["*"])
 
 models.Base.metadata.create_all(bind=engine)
@@ -32,8 +34,12 @@ def get_db():
     finally:
         db.close()
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")        
+
 @app.post("/summarize")
-async def summarize(content: str):
+async def summarize(content: str, credentials: HTTPAuthorizationCredentials = Security(security) ):
+    token = credentials.credentials
+    
     try:
         response = client.chat.completions.create(
             model="gpt-4",
@@ -57,6 +63,5 @@ async def summarize(content: str):
     except Exception as error:
         raise HTTPException(status_code=500, detail=(str(error)))
 
-    
     
 
