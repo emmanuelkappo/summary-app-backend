@@ -32,6 +32,7 @@
 #     response = client.get("/auth/", headers=headers)
     
 #     assert response.status_code == 200
+
 #     assert "username" in response.json()
 #     assert "id" in response.json()
 

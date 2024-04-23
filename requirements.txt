@@ -1,13 +1,32 @@
-fastapi
+fastapi~=0.110.2
 uvicorn[standard]
-openai
+openai~=1.23.2
 docx
 python-docx
 requests
 pydub
 python-jose[cryptography]
-passlib[bcrypt]
+passlib[bcrypt]~=1.7.4
 python-multipart
-sqlalchemy
-pydantic
+sqlalchemy~=2.0.29
+pydantic~=2.7.0
 httpx
+envparse
+
+starlette~=0.37.2
+typing_extensions~=4.11.0
+
+
+# fastapi
+# uvicorn[standard]
+# openai
+# docx
+# python-docx
+# requests
+# pydub
+# python-jose[cryptography]
+# passlib[bcrypt]
+# python-multipart
+# sqlalchemy
+# pydantic
+# httpx
