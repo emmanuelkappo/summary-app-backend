@@ -12,9 +12,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import jwt, JWTError, ExpiredSignatureError
 import auth
 import os
-from envparse import env
 
-env.read_envfile()
 
 security = HTTPBearer()
 
