@@ -1,4 +1,5 @@
-name: backend
-type: web
-runtime: docker
-plan: free
+services:
+  name: backend
+  type: web
+  runtime: docker
+  plan: free
