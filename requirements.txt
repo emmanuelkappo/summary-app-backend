@@ -12,6 +12,7 @@ sqlalchemy~=2.0.29
 pydantic~=2.7.0
 httpx
 envparse
+email_validator
 
 starlette~=0.37.2
 typing_extensions~=4.11.0
