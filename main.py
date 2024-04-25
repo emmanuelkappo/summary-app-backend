@@ -26,7 +26,7 @@ ALGORITHM = 'HS256'
 api_key = os.environ['OPENAI_API_KEY']
 client = OpenAI(api_key=api_key)
 
-origin = ["http://localhost", "http://localhost:3000","https://magical-arithmetic-50d64e.netlify.app/"]
+origin = ["http://localhost", "http://localhost:3000","https://dapper-nougat-a1c723.netlify.app"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origin,
